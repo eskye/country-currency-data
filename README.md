@@ -9,6 +9,8 @@ The aim of this project is to use some existing unstructured dataset of countrie
  The final output of the dataset will contain:
  `CountryName, CurrencyName, CountryCode, CurrencyCode, CurrencySymbol, currencySymbolNative` 
 
+[Download Output dataset here](https://github.com/eskye/country-currency-data/blob/master/src/JsonDataFilter/output-data.json)
+
 Final Output will contain a list of the JSON object below:
 ```JSON
 {
