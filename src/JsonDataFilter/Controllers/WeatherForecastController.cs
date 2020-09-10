@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using Newtonsoft.Json; 
 
 namespace JsonDataFilter.Controllers
 {
@@ -15,11 +14,7 @@ namespace JsonDataFilter.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+        
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IHostEnvironment _environment;
 
@@ -30,19 +25,6 @@ namespace JsonDataFilter.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
-
-        [HttpGet("data")]
         public async Task<IActionResult> GetDataFiltered()
         
         {
@@ -51,17 +33,17 @@ namespace JsonDataFilter.Controllers
             var currencies = _environment.ContentRootPath + "/Dataset/currencies.json";
             
             var countriesData = await System.IO.File.ReadAllTextAsync(countries);
-            var currenciesData = await System.IO.File.ReadAllTextAsync(country_currency);
+            var country_currenciesData = await System.IO.File.ReadAllTextAsync(country_currency);
             var allCurrenciesData = await System.IO.File.ReadAllTextAsync(currencies);
 
             var countriesList = JsonConvert.DeserializeObject<List<CountryData>>(countriesData);
-            var currencyList = JsonConvert.DeserializeObject<List<Currency>>(currenciesData); 
-            var allCurrencyList = JsonConvert.DeserializeObject<List<AllCurrency>>(allCurrenciesData); 
+            var countriesCurrenciesList = JsonConvert.DeserializeObject<List<Currency>>(country_currenciesData); 
+            var allCurrenciesList = JsonConvert.DeserializeObject<List<AllCurrency>>(allCurrenciesData); 
 
             var countriesCurrencyCodes = new List<CountryCurrencyCode>();
             countriesList.ForEach(c =>
                 {
-                   var currency = currencyList.FirstOrDefault(x => string.Equals(x.CountryName, c.Country, StringComparison.CurrentCultureIgnoreCase));
+                   var currency = countriesCurrenciesList.SingleOrDefault(x => string.Equals(x.CountryName, c.Country, StringComparison.CurrentCultureIgnoreCase));
                    if (currency != null)
                    {
                        countriesCurrencyCodes.Add(new CountryCurrencyCode
@@ -77,7 +59,7 @@ namespace JsonDataFilter.Controllers
             long i = 1;
             countriesCurrencyCodes.ForEach(c =>
             {
-                var currency = allCurrencyList.FirstOrDefault(x => string.Equals(x.Code, c.CurrencyCode, StringComparison.CurrentCultureIgnoreCase));
+                var currency = allCurrenciesList.SingleOrDefault(x => string.Equals(x.Code, c.CurrencyCode, StringComparison.CurrentCultureIgnoreCase));
                 if (currency != null)
                 {
                     response.Add(new FilteredCountryData
