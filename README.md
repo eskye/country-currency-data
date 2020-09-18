@@ -7,11 +7,14 @@ This project combine different unstructured data of countries and their currenci
 The aim of this project is to use some existing unstructured dataset of countries and their currencies to generate a structured dataset that anyone looking for mapped country and currency together can use for any purpose.
  
  The final output of the dataset will contain:
- `CountryName, CurrencyName, CountryCode, CurrencyCode, CurrencySymbol, currencySymbolNative` 
+ `CountryName, CurrencyName, CountryCode, CurrencyCode, CurrencySymbol, currencySymbolNative, iso` 
 
 [Download Output dataset here](https://github.com/eskye/country-currency-data/blob/master/src/JsonDataFilter/output-data.json)
 
-Final Output will contain a list of the JSON object below:
+
+List of countries with currencies properties.
+
+JSON object sample below:
 ```JSON
 {
 "id": 1,
@@ -21,16 +24,37 @@ Final Output will contain a list of the JSON object below:
 "currencySymbol": "Af",
 "currencyName": "Afghan Afghani",
 "currencySymbolNative": "؋"
-},
+}
 
 ```
-# Usage
-Download the `output-data.json` file and copy it to your project.
+
+List of countries with currencies and ISO number.
+
+JSON object sample below:
+```JSON
+{
+"id": 1,
+"country": "Afghanistan",
+"countryCode": "AF",
+"currencyCode": "AFN",
+"currencySymbol": "Af",
+"currencyName": "Afghan Afghani",
+"currencySymbolNative": "؋",
+"iso":4
+}
+
+```
+# Usage & Download Dataset
+
+Download the `country-currency-data.json` file and copy it to your project.
+
+[Download List of countries with currencies properties](src/JsonDataFilter/Outputs/country-currency-data.json)
+[Download List of countries with currencies and ISO number](src/JsonDataFilter/Outputs/country-currency-iso-data.json)
 
 #### PHP
 
 ```PHP
-$file = file_get_contents("./src/JsonDataFilter/output-data.json");
+$file = file_get_contents("./src/JsonDataFilter/Outputs/country-currency-data.json");
 
 foreach (json_decode($file, true) as $key => $value) {
   var_dump($value); // {"id": 1,"country": "Afghanistan","countryCode": "AF","currencyCode": "AFN","currencySymbol": "Af","currencyName": "Afghan Afghani","currencySymbolNative": "؋"}
@@ -42,7 +66,7 @@ foreach (json_decode($file, true) as $key => $value) {
 ```C#
 
    List<T> output;
-    var stream = System.IO.File.Open("./src/JsonDataFilter/output-data.json", FileMode.Open);
+    var stream = System.IO.File.Open("./src/JsonDataFilter/Outputs/country-currency-data.json", FileMode.Open);
     using (var streamReader = new StreamReader(stream))
     {
         var json = streamReader.ReadToEnd();
@@ -55,7 +79,7 @@ foreach (json_decode($file, true) as $key => $value) {
 #### Node.js
 
 ```Javascript
-var result = require('./src/JsonDataFilter/output-data.json')
+var result = require('./src/JsonDataFilter/Outputs/country-currency-data.json')
 console.log(result[0]); // {"id": 1,"country": "Afghanistan","countryCode": "AF","currencyCode": "AFN","currencySymbol": "Af","currencyName": "Afghan Afghani","currencySymbolNative": "؋"}
 
 ```
@@ -65,7 +89,7 @@ console.log(result[0]); // {"id": 1,"country": "Afghanistan","countryCode": "AF"
 ```Python
 import yaml
 
-with open('./src/JsonDataFilter/output-data.json') as json_file:
+with open('./src/JsonDataFilter/Outputs/country-currency-data.json') as json_file:
     for line in yaml.safe_load(json_file):
         print line # // {"id": 1,"country": "Afghanistan","countryCode": "AF","currencyCode": "AFN","currencySymbol": "Af","currencyName": "Afghan Afghani","currencySymbolNative": "؋"}
 ```
