@@ -5,5 +5,6 @@ namespace JsonDataFilter.Models
         public string Country { get; set; }
         public string CountryCode { get; set; }
         public string CurrencyCode { get; set; }
+        public int? Iso { get; set; }
     }
 }

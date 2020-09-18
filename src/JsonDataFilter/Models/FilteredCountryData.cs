@@ -9,5 +9,6 @@ namespace JsonDataFilter.Models
         public string CurrencySymbol { get; set; }
         public string CurrencyName { get; set; }
         public string CurrencySymbolNative { get; set; }
+        public int? Iso { get; set; }
     }
 }

@@ -22,11 +22,12 @@ namespace JsonDataFilter.Controllers
         public async Task<IActionResult> GetDataFiltered()
 
         {
-            var countries = _environment.ContentRootPath + "/Dataset/countries.json";
+           // var countries = _environment.ContentRootPath + "/Dataset/countries.json";
             var country_currency = _environment.ContentRootPath + "/Dataset/country-currency.json";
             var currencies = _environment.ContentRootPath + "/Dataset/currencies.json";
+            var countriesByIso = _environment.ContentRootPath + "/Dataset/country-iso-numeric.json";
 
-            var countriesData = await System.IO.File.ReadAllTextAsync(countries);
+            var countriesData = await System.IO.File.ReadAllTextAsync(countriesByIso);
             var country_currenciesData = await System.IO.File.ReadAllTextAsync(country_currency);
             var allCurrenciesData = await System.IO.File.ReadAllTextAsync(currencies);
 
@@ -44,7 +45,8 @@ namespace JsonDataFilter.Controllers
                         {
                             Country = c.Country,
                             CountryCode = currency.CountryCode,
-                            CurrencyCode = currency.CurrencyCode
+                            CurrencyCode = currency.CurrencyCode,
+                            Iso = c.Iso
                         });
                     }
                 });
@@ -64,6 +66,7 @@ namespace JsonDataFilter.Controllers
                         CurrencyName = currency.Name,
                         CurrencySymbol = currency.Symbol,
                         CurrencySymbolNative = currency.SymbolNative,
+                        Iso = c.Iso,
                         Id = i
                     });
                 }
